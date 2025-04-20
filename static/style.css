@@ -1,0 +1,567 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  padding: 25px;
+  font-size: 125%;
+}
+
+/* span.value.upper::before {
+    content: " - ";
+    display: inline-block;
+    margin-right: 0.4em;
+    margin-left: 0.4em;
+  }
+  
+  span.value.lower::after {
+    content: "%";
+    display: inline-block;
+  }
+  
+  span.value.upper::after {
+    content: "%";
+    display: inline-block;
+  }
+   */
+
+/* input[type="range"] {
+  width: 20vw;
+} */
+
+#submit {
+  width: 20vw;
+  height: 10vh;
+  background-color: lightgreen;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#dropzone_submit:hover {
+  background-color: limegreen;
+}
+
+/* input[type=checkbox] {
+  position: relative;
+  bottom: 1px;
+  width: 15vw;
+} */
+input[type="checkbox"] {
+  width: 1.5vw;
+  /* Default width */
+  vertical-align: middle;
+  height: 1.5vw;
+  /* Default height */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+
+br {
+  display: block;
+  margin: 5vh 0;
+}
+
+input[type=radio] {
+  border: 0px;
+  height: 2.5vw;
+  /* Default height */
+  width: 2.5vw;
+  /* Default height */
+  vertical-align: middle;
+  position: relative;
+}
+
+
+.sample_image {
+  max-width: 40%;
+}
+
+
+select {
+  width: 15vw;
+  height: 7vw;
+  font-size: 125%;
+  vertical-align: middle;
+}
+
+/* .dropzone .dz-preview .dz-image {
+  width: auto;
+  height: auto;
+} */
+.dropzone {
+  width: 30%; /* Set your desired width */
+  height: 300px; /* Set your desired height */
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal overflow */
+  padding: 10px;
+}
+
+
+/* General header styles */
+
+/* Specific styles for each header level */
+h1 {
+  font-size: 5vw;
+  /* Larger font size for h1 */
+  font-weight: bold;
+  /* Bold text */
+  color: #2c3e50;
+  /* Slightly darker shade */
+  text-shadow: 1px 1px 2px #aaa;
+  /* Subtle text shadow for depth */
+}
+
+
+
+h3 {
+  font-size: 1.5em;
+  /* Smaller font size for h3 */
+  font-weight: normal;
+  /* Normal weight */
+  color: black;
+  /* Lighter shade */
+  background-color: #ecf0f1;
+  /* Light background color */
+  padding: 1px;
+  /* Padding around the header */
+  border-radius: 1px;
+  /* Rounded corners */
+  display: inline-block;
+  /* Only take up as much width as content */
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  /* Subtle box shadow */
+}
+
+
+#button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+#dropper {
+  width: 20vw;
+  height: 20vw;
+  justify-content: center;
+
+}
+
+.img_div {
+  float: left;
+  text-align: center;
+}
+
+figcaption {
+  border: 1px solid blue;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: calc(10px + 2vw);
+  /* Adjust as needed */
+  text-shadow: none;
+  color: black;
+  text-align: center;
+  height: 5vw;
+  width: 100%;
+  word-wrap: break-word;
+  /* max-width: 50%; */
+}
+
+
+
+.min-max-slider {
+  position: relative;
+  width: 200px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.min-max-slider>label {
+  display: none;
+}
+
+span.value {
+  height: 1.7em;
+  font-weight: bold;
+  display: inline-block;
+}
+
+span.value.lower::after {
+  content: "%-";
+  display: inline-block;
+}
+
+span.value.upper::after {
+  content: "%";
+  display: inline-block;
+}
+
+.min-max-slider>.legend {
+  display: flex;
+  justify-content: space-between;
+}
+
+.min-max-slider>.legend>* {
+  font-size: small;
+  opacity: 0.25;
+}
+
+.min-max-slider>input {
+  cursor: pointer;
+  position: absolute;
+}
+
+/* webkit specific styling */
+.min-max-slider>input {
+  -webkit-appearance: none;
+  outline: none !important;
+  background: transparent;
+  background-image: linear-gradient(to bottom, transparent 0%, transparent 30%, silver 30%, silver 60%, transparent 60%, transparent 100%);
+}
+
+.min-max-slider>input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  /* Override default look */
+  appearance: none;
+  width: 14px;
+  /* Set a specific slider handle width */
+  height: 14px;
+  /* Slider handle height */
+  background: #eee;
+  /* Green background */
+  cursor: pointer;
+  /* Cursor on hover */
+  border: 1px solid gray;
+  border-radius: 100%;
+}
+
+.min-max-slider>input::-webkit-slider-runnable-track {
+  cursor: pointer;
+}
+
+
+
+
+
+
+/* Style for the range input */
+.rangeInput {
+  width: 20vw;
+  height: 1.5vw;
+  /* Increased height for a bigger bar */
+  -webkit-appearance: none;
+  background: lightslategrey;
+  outline: none;
+  opacity: 0.8;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+/* Webkit browsers (Chrome, Safari, etc.) */
+.rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10%;
+  /* Increased width for a bigger button */
+  height: 2vw;
+  /* Increased height for a bigger button */
+  background: blue;
+  cursor: pointer;
+  border-radius: 50%;
+  /* Makes the button round */
+}
+
+/* Firefox */
+.rangeInput::-moz-range-thumb {
+  width: 40px;
+  /* Increased width for a bigger button */
+  height: 40px;
+  /* Increased height for a bigger button */
+  background: #4CAF50;
+  cursor: pointer;
+  border-radius: 50%;
+  /* Makes the button round */
+}
+
+/* IE and Edge */
+.rangeInput::-ms-thumb {
+  width: 40px;
+  /* Increased width for a bigger button */
+  height: 40px;
+  /* Increased height for a bigger button */
+  background: #4CAF50;
+  cursor: pointer;
+  border-radius: 50%;
+  /* Makes the button round */
+}
+
+
+
+
+
+
+
+
+General Body Styling body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  text-align: center;
+  margin: 20px;
+  font-size: 2rem;
+}
+
+/* Responsive Div Containers */
+#upload_progress,
+#dropzone_buttons,
+#Pre-Proccessing,
+#augmentation {
+  max-width: 1000px;
+  width: 90%;
+  background-color: #444;
+  margin: 10px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+label {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+/* Inputs and Buttons */
+input[type="button"],
+button {
+  font-size: 1rem;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0066cc;
+  color: #fff;
+  cursor: pointer;
+}
+
+input[type="button"]:hover,
+button:hover {
+  background-color: #004d99;
+}
+
+progress {
+  width: 100%;
+  height: 20px;
+}
+
+/* Responsive Images */
+img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+  display: block;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  input[type="button"],
+  button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  label {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  input[type="button"],
+  button {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  label {
+    font-size: 0.8rem;
+  }
+}
+
+/* Button Styling */
+/* Button Styling */
+button {
+  display: inline-block;
+  /* Ensures button fits content */
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  /* Adjusts font size dynamically */
+  font-weight: bold;
+  /* Makes text stand out */
+  margin-top: 20px;
+  padding: 10px 20px;
+  /* Space inside button */
+  border: none;
+  border-radius: 5px;
+  background-color: #0066cc;
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+  /* Prevents text wrapping */
+  text-align: center;
+  box-sizing: border-box;
+  /* Ensures consistent padding and sizing */
+  overflow: hidden;
+  /* Hides overflowing text */
+  min-width: 200px;
+  /* Ensures a minimum width */
+  max-width: 90%;
+  /* Prevents button from being too wide */
+}
+
+button:hover {
+  background-color: #004d99;
+}
+
+@media (max-width: 768px) {
+  button {
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    /* Slightly smaller text for tablets */
+    padding: 8px 16px;
+    /* Adjusts padding for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  button {
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
+    /* Further adjusts text size for small devices */
+    padding: 6px 12px;
+  }
+}
+
+
+
+
+
+
+/* Container for checkboxes */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  /* Stack checkboxes vertically */
+  gap: 10px;
+  /* Add spacing between items */
+  padding: 10px;
+}
+
+/* Checkbox labels styling */
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  /* Responsive font size */
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+}
+
+/* Custom checkbox styling */
+.checkbox-group input[type="checkbox"] {
+  appearance: none;
+  /* Remove default checkbox */
+  width: 1.5vw;
+  height: 1.5vw;
+  border: 2px solid #0066cc;
+  border-radius: 4px;
+  /* Rounded corners */
+  outline: none;
+  margin-right: 10px;
+  /* Spacing between checkbox and label */
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Checkbox checked state */
+.checkbox-group input[type="checkbox"]:checked {
+  background-color: #0066cc;
+  border-color: #004d99;
+  position: relative;
+}
+
+/* Checkbox hover effect */
+.checkbox-group input[type="checkbox"]:hover {
+  border-color: #004d99;
+}
+
+/* Adjust for smaller devices */
+@media (max-width: 480px) {
+  .checkbox-group label {
+    font-size: 0.9rem;
+    /* Slightly smaller text */
+  }
+
+  .checkbox-group input[type="checkbox"] {
+    width: 30px;
+    height: 30px;
+    /* Smaller checkbox size */
+  }
+}
+
+
+
+
+
+
+
+
+
+div.item {
+  /* To correctly align image, regardless of content height: */
+  vertical-align: top;
+  /* display: inline-block; */ 
+  /* To horizontally center images and caption */
+  text-align: center;
+  /* The width of the container also implies margin around the images. */
+  width: 30%;
+  /* aspect-ratio: 1; */
+  aspect-ratio: 1 / 1; 
+  
+}
+img {
+  max-width: 100%;
+  max-height: 100%;
+  /* object-fit: contain; */
+  /* display: block; */
+  margin: auto;
+  background-color: grey;
+}
+.caption {
+  /* Make the caption a block so it occupies its own line. */
+  display: block;
+}

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/basic.min.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script type="application/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js">
+        </script>
+    <title>Image Classification Augmentation</title>
+
+
+    <!-- In <body> -->
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+    </style>
+</head>
+
+
+
+
+
+<body style="width: 100%;background-color:darkgrey;">
+    <h1 align="center">Classification image augmentation</h1>
+
+    <div id="upload_progress" style="display: none;">
+        <!-- upload progress here -->
+        <label for="dataset_upload_progress" style="font-size: 2vw;">Uploading progress:</label>
+        <progress id="dataset_upload_progress" value="0" max="100"
+            style="width:20vw;height: 5vh;vertical-align: middle;">0%</progress>
+        <!-- <b id="visualizationGenerationIndicator" style="display: none;">Visualizations being generated... please wait</b> -->
+    </div>
+    <div id="dropzone_buttons" style="font-size: 1.5vw;">
+
+
+        <br>
+        <input type="radio" id='zip' name="folder_or_zip" onclick="set_zip_or_folder_upload();"> <label for="zip">Select
+            zip file</label>
+        <input type="radio" id='folder' name="folder_or_zip" checked onclick="set_zip_or_folder_upload();"> <label
+            for="folder">Select folder</label>
+        <input type="radio" id='files' name="folder_or_zip" onclick="set_zip_or_folder_upload();"> <label
+            for="folder">Select individual images</label>
+        <br>
+        <div id='upload_buttons' style="display: block;">
+            <form method="POST" action='/upload' class="dropzone" id="dropper" enctype="multipart/form-data">
+            </form>
+            <!-- <b id="visualizationGenerationIndicator" style="display: none;">Visualizations being generated... please wait</b> -->
+            <button onclick="send_dataset();" style="display: none;" id="submitFolder">Submit Dataset</button>
+        </div>
+        <b style="display: none;" id="uploading_images_text">uploading images, please wait...</b>
+        <b style="display: none;" id="fetching_images_text">fetching interactive images, please wait...</b>
+
+        <br>
+    </div>
+    <!-- <b id="visualizationGenerationIndicator" style="display: none;">Visualizations being generated... please wait</b> -->
+
+    <div id="Pre-Proccessing" style="opacity: 25%; font-size: 1.5vw;" class="checkbox-group">
+        <br>
+        <h2>Pre-Proccessing Options</h2>
+        <br>
+
+        <label for="grayscale_preprocess">grayscale</label>
+        <input type="checkbox" id="grayscale_preprocess" onchange="grayscale_preview_images();">
+        <br>
+
+        <label for="resize_preprocess">resize</label>
+        <input type="checkbox" id="resize_preprocess" onclick="resize_preview_images();">
+        <div id="resize_preprocess_pop_up" style="display: none;">
+
+            <select name="resize options" id="resize options" style="width: 20vw;height: 4vw;">
+                <option value="Stretch to" style="width: 20vw;height: 4vw;">Stretch to</option>
+                <!-- <option value="fill (with center crop) in">fill (with center crop) in</option>
+                <option value="Fit within">Fill within</option> -->
+                <!-- <option value="Fit (reflect edges) in">Fit (reflect edges) in</option>
+                <option value="Fit (Black edges) in">Fit (Black edges) in</option>
+                <option value="Fit (white edges) in">Fit (white edges) in</option> -->
+            </select>
+
+            <br>
+            <input id="input_width" name="width" type="number" class="short integer" placeholder="width" value="640"
+                style="width: 8vw;height: 4vw;font-size: 3vw;" onchange="resize_preview_images()">
+            <b style="width: 1.6vw;height: 1vw;">X</b>
+            <input id="input_height" name="height" type="number" class="short integer" placeholder="height" value="640"
+                style="width: 8vw;height: 4vw;font-size: 3vw;" onchange="resize_preview_images()">
+            <br>
+            <div class="item" id="resizeItem">
+                <img src="" id="resize_sample_img">
+                <span class="caption" id="resized_caption">Resized</span>
+            </div>
+        </div>
+        <br>
+    </div>
+
+
+
+    <br>
+    <div id='augmentation' style="opacity: 25%; font-size: 1.5vw;" class="checkbox-group">
+        <h2>Augmentations</h2>
+        <!-- <label for="absolute_path">Image directory absolute path</label> -->
+        <!-- <input type="text" id="absolute_path" name="absolute_path" placeholder="absolute path here"><br> -->
+
+        <!-- <input id="Flip_probability" type="range" min="0" max="100" step="any" /><br>  EXAMPLE OF SLIDER  -->
+        <div id="Flip">
+
+            <label for="Flip_check_box">Flip</label>
+            <input type="checkbox" value="Flip" name='Flip' id="Flip_check_box"
+                onchange="display_popups_methods.flip_click_checkbox();">
+
+            <div id="Flip_pop_up" style="display: none;">
+                <label for="vertical_flip">vertical</label>
+                <input type='checkbox' id="vertical_flip" name="vertical_flip"
+                    onclick="display_popups_methods.verticalflip_click_checkbox();">
+                <label for="horizontal_flip">horizontal</label>
+                <input type="checkbox" id="horizontal_flip" name="horizontal_flip"
+                    onclick="display_popups_methods.horizontalflip_click_checkbox();">
+                <div align="center">
+                    <div class="item">
+                        <img src="" id="flip_normal_sample_img" />
+                        <span class="caption" id="flip_caption">Pre-Processed</span>
+                    </div>
+                    <br>
+                </div>
+
+                <div class="images-container" style="justify-content: center; /* Center elements horizontally */
+                align-items: center;display: flex; ">
+
+                    <div class="item" style="display: none;" id="vertical_flip_popup">
+                        <img src="" id="vertical_flip_sample_img" style="transform: rotateX(180deg);" />
+                        <span class="caption" id="vertical_flip_caption">Vertical</span>
+                    </div>
+                    <div class="item" style="display: none;" id="horizontal_flip_popup">
+                        <img src="" id="horizontal_flip_sample_img" style="transform: rotateY(180deg);" />
+                        <span class="caption" id="horizontal_flip_caption">Horizontal</span>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <br>
+        <div id="90° rotate">
+            <label for="90° rotate_check_box">90° rotate</label>
+            <input type="checkbox" value="90° rotate" id="90° rotate_check_box" name='90° rotate'
+                onchange="display_popups_methods.rotate_90_click_checkbox();">
+            <div id="90_rotate_popup" style="display:none">
+                <!-- <label for="Clockwise">Clockwise</label>
+                <input type="checkbox" id="Clockwise" onchange="display_popups_methods.clockwise_click_checkbox();">
+                <br>
+                <img src="" id="clockwise_sample_img" style="display: none;" class="sample_image">
+
+                <br>
+                <label for="Counter-Clockwise"">Counter-Clockwise</label>
+                <input type='checkbox' id='Counter-Clockwise' onchange="
+                    display_popups_methods.counter_clockwise_click_checkbox();">
+                    <br>
+                    <img src="" id="counter_clockwise_sample_img" style="display: none;" class="sample_image">
+
+                    <br>
+                    <label for="Upside Down">Upside Down</label>
+                    <input type="checkbox" id="Upside Down"
+                        onchange="display_popups_methods.upside_down_click_checkbox();">
+                    <br>
+                    <img src="" id="upside_down_sample_img" style="display: none;" class="sample_image">
+                    <br> -->
+
+
+                <label for="Clockwise">Clockwise</label>
+                <input type='checkbox' id="Clockwise" name="Clockwise"
+                    onclick="display_popups_methods.clockwise_click_checkbox();">
+                <label for="Counter-Clockwise">Counter-Clockwise</label>
+                <input type="checkbox" id="Counter-Clockwise" name="Counter-Clockwise"
+                    onclick="display_popups_methods.counter_clockwise_click_checkbox();">
+                <label for="Upside Down">Upside Down</label>
+                <input type="checkbox" id="Upside Down" name="Counter-Clockwise"
+                    onclick="display_popups_methods.upside_down_click_checkbox();">
+                <div align="center">
+                    <div class="item">
+                        <img src="" id="90_rotate_normal_sample_img" />
+                        <span class="caption" id="90_flip_caption">Pre-Processed</span>
+                    </div>
+                    <br>
+                </div>
+
+                <div class="images-container" style="justify-content: center; /* Center elements horizontally */
+                align-items: center;display: flex; ">
+
+                    <div class="item" style="display: none;" id="clockwise_popup">
+                        <img src="" id="clockwise_sample_img" style="transform: rotate();" />
+                        <span class="caption" id="clockwise_caption">Clockwise</span>
+                    </div>
+                    <div class="item" style="display: none;" id="counter-clockwise_popup">
+                        <img src="" id="counter_clockwise_sample_img" style="transform: rotate(0deg);" />
+                        <span class="caption" id="counter-clockwise_caption">Counter Clockwise</span>
+                    </div>
+                    <div class="item" style="display: none;" id="upside_down_popup">
+                        <img src="" id="upside_down_sample_img" style="transform: rotateY(0deg);" />
+                        <span class="caption" id="upside-down_caption">Upside DOwn</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div id="Crop">
+            <label for="Crop_checkbox">Crop</label>
+            <input type="checkbox" value="Crop" id="Crop_checkbox" name='Crop'
+                onchange="display_popups_methods.crop_click_checkbox();"><b></b>
+            <div id="crop_pop_up" style="display: none;"> <!--style="display:none"-->
+                <p>
+                    <label for="amount">crop range:</label>
+                    <input type="text" id="amount" readonly=""
+                        style="border:0; color:#f6931f; font-weight:bold;width:30%;height:2.5vw;font-size: 1.5em;"
+                        value="">
+                </p>
+
+                <div id="slider-range" style="width: 80%;"></div>
+
+                <br>
+                <div class="item">
+                    <img src="" id="crop_sample_img" />
+                    <!-- <span class="caption" id="upside-down_caption">Upside DOwn</span> -->
+                </div>
+                <div class="item">
+                    <img src="" id="crop_sample_img2" />
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div id="grayscale">
+            <label for="grayscale_checkbox">grayscale</label>
+            <input type="checkbox" value="grayscale" id="grayscale_checkbox" name='grayscale_checkbox'
+                onchange="display_popups_methods.grayscale_click_checkbox();">
+            <div id="grayscale_popup" style="position:absolute;left: -1000px;">
+
+                <label>% of outputted images to grayscale</label>
+                <input id="grayscale_probability" type="range" min="1" max="100" step="1"
+                    oninput="range_input_methods.update_probabilities();" class="rangeInput"><b
+                    id="show_grayscale_probability">50</b>%
+                <div class="item" id="horizontal_flip_popup">
+                    <img src="" id="grayscale_sample_image" style="filter: grayscale(100%);" />
+                    <span class="caption" id="horizontal_flip_caption">Grayscaled</span>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div id='Rotate'>
+            <label for="Rotate_checkbox">Rotate</label> <!-- make user pick rotation range-->
+            <input type="checkbox" value="Rotate" id="Rotate_checkbox" name='Rotate'
+                onclick="display_popups_methods.rotate_click_checkbox();" style="text-align: bottom;">
+            <div id="rotate_pop_up" style="display:none;">
+                <br>
+                <div id="Rotate_limits" align="center">
+                    <label>Enter rotation limit</label>
+                    <input id="Rotate_limit" type="range" min="1" max="45" step="1"
+                        oninput="range_input_methods.update_probabilities();" value='3' class="rangeInput"><b>1-</b><b
+                        id="show_Rotate_limit" align="center">3</b>°
+                    <div class="item">
+                        <img src="" id="rotate_normal_sample_image">
+                        <span class="caption" id="rotate_limit_caption1">0°</span>
+                    </div>
+                    <br>
+                </div>
+                <!-- <div class="images-container" style="justify-content: center; /* Center elements horizontally */
+                align-items: center;display: flex;"> -->
+                <!-- </div> -->
+                <div class="images-container" style="justify-content: center; /* Center elements horizontally */
+                align-items: center;display: flex; ">
+
+
+                    <div class="item">
+                        <img src="" id="rotate_sample_image2" />
+                        <span class="caption" id="rotate_limit_caption2">-5°</span>
+                    </div>
+                    <div class="item">
+                        <img src="" id="rotate_sample_image" />
+                        <span class="caption" id="rotate_limit_caption">5°</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="blur">
+            <br>
+            <label for="blur_checkbox">blur</label>
+            <input type="checkbox" value="blur_checkbox" id="blur_checkbox" name="blur_checkbox"
+                onclick="display_popups_methods.blur_click_checkbox();">
+            <div id="blur_pop_up" style="display:none">
+                <br>
+                <label>enter blur limit</label>
+                <input id="blur_limit" class="rangeInput" type="range" min=".1" max="25" step=".1"
+                    oninput="range_input_methods.update_probabilities();" value="5">
+                <b id="show_blur_limit"></b> px
+                <br>
+                <!-- <div class="images-container"> -->
+                <!-- <div class="img_div">
+                        <img src="" id="blur_normal_sample_image" class="sample_image">
+                        <figcaption id=sample_limit_caption">0 px</figcaption>
+                    </div>
+
+                    <div class="img_div">
+                        <img src="" id="blur_sample_image" class="sample_image">
+                        <figcaption id="blur_limit_caption">5</figcaption>
+                    </div> -->
+
+                <div class="item">
+                    <img src="" id="blur_normal_sample_image" />
+                    <span class="caption" id="sample_limit_caption">0 px</span>
+                </div>
+                <div class="item">
+                    <img src="" id="blur_sample_image" />
+                    <span class="caption" id="blur_limit_caption">5</span>
+                </div>
+
+                <!-- </div> -->
+                <!-- <br><br><br><br><br> -->
+            </div>
+        </div>
+        <br>
+        <!-- <h3>Choose classes you want to augment</h3> -->
+
+        
+        <h1 style="display: none;" id="select_directories_header">Select Directories with Images to augment</h1>
+        <form id="directory-form">
+            <div id="image-directory-checkboxes"></div>
+            <!-- <button type="submit">Submit</button> -->
+        </form>
+
+
+
+        <div style="display: flex;
+        width: 100%;
+        margin-top: 20px; align-items: center;">
+
+
+            <label for="Expansion" style="vertical-align: middle;">Dataset Expansion Factor</label>
+            <select name="Dataset Expansion Factor" id="Expansion" disabled
+                style="text-align: center;vertical-align:-webkit-baseline-middle;height: 3vw;">
+                <option value="2x">2x</option>
+                <option value="3x">3x</option>
+                <option value="4x">4x</option>
+                <option value="5x">5x</option>
+                <option value="6x">6x</option>
+                <option value="7x">7x</option>
+                <option value="8x">8x</option>
+                <option value="9x">9x</option>
+                <option value="10x">10x</option>
+                <option value="11x">11x</option>
+                <option value="12x">12x</option>
+                <option value="13x">13x</option>
+                <option value="14x">14x</option>
+                <option value="15x">15x</option>
+            </select>
+        </div>
+
+
+        <div id="button-container" style="right: 30%;">
+            <button type="submit" onclick="submit_everything();" id="submit"><b style="width: fit-content;">Submit
+                    Augmentations</b></button>
+        </div>
+        <b id="augmentation progress text" style="display: none;">Augmenting your dataset, please wait...</b>
+
+
+        <br><br>
+
+        <div id="copy_paste_div" style='display:none'>
+            <!--<input type="text" id="copy_paste_textbox">-->
+            <button type="submit" onclick="copy_paste_code_methods.copy_and_paste();">Copy and paste code</button>
+            <br>
+            <textarea id="code_block" name="code_block" rows="10" cols="10"></textarea>
+        </div>
+
+        <!-- <script src="/static/double_slider.js"></script> -->
+        <script src="{{ url_for('static', filename='classification.js') }}"></script>
+        <!-- <script src="/static/doubleSlider.js"></script> -->
+        <!-- <script src="/static/Classification.js"></script> -->
+        <script>disable_inputs();</script>
+
+    </div>
+    <a href='' id="download_tag" download onclick="close_download_tag();" style="font-size: 5vw;"></a>
+
+</body>
+
+</html>

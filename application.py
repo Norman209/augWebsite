@@ -808,7 +808,7 @@ def augment(dataset_id):
 #     return render_template('index.html')
 
 
-@application.route('/',methods=['POST','GET']) 
+@application.route('/Classification',methods=['POST','GET']) 
 def Classification():
     return render_template('Classification.html')
 
@@ -820,7 +820,9 @@ def Object_detection():
 def Segmentation():
     return render_template('Segmentation.html')
 
-
+@application.route('/',methods=['POST','GET'])
+def LandingPage():
+    return render_template('Landing page/index.html')
     
 @application.route('/get_all_images/<folder_id>/<aug>', methods=['GET'])
 def get_all_preview_images(folder_id,aug):
